@@ -30,7 +30,8 @@ Function AbuseIpLookup {
         }
 
         $lookup = Invoke-RestMethod @Params
-        $lookupParsed = $lookup | ConvertTo-Json #Formatted JSON for testing.
+        #$lookupParsed = $lookup | ConvertTo-Json #Convert JSON to a more human-readable format.
+        #Write-Output $lookupParsed #Print human-readable JSON response for testing.
 
         $ipAddress = $lookup.data.ipAddress
         $isPublic = $lookup.data.isPublic

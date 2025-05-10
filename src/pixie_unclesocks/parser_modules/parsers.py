@@ -247,18 +247,19 @@ def netstat():
     return ns_address_list
 
 
-def talos_blacklist():
+def osint_blacklist():
 
     print("\nUpdating IP address blacklist... ")
 
-    blacklist_url = "https://www.talosintelligence.com/documents/ip-blacklist"
+    blacklist_url = "https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt"
 
     try:
         get_blacklist = urllib.request.urlopen(blacklist_url).read().decode('utf-8')
-        parsed_blacklist = get_blacklist.strip().split("\n")
+        parsed_blacklist = [line.split() for line in get_blacklist.strip().split('\n') if line.strip() and not line.startswith('#')]
+        cleaned_blacklist = [ip[0] for ip in parsed_blacklist]
         print("IP address blacklist updated.")
     except:
-        parsed_blacklist = []
+        cleaned_blacklist = []
         print("Error-003: Failed to update blacklist IP")
 
-    return parsed_blacklist
+    return cleaned_blacklist

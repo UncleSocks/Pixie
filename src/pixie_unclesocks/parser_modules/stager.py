@@ -1,6 +1,6 @@
 import re
 from collections import Counter
-from parser_modules.parsers import talos_blacklist
+from parser_modules.parsers import osint_blacklist
 from init import blacklist_wordlist
 
 
@@ -36,7 +36,7 @@ def staged_output(output_dict):
 def blacklist_check(output_list, blacklist_file):
 
     if blacklist_file == False:
-        blacklist = talos_blacklist()
+        blacklist = osint_blacklist()
     else:
         blacklist = blacklist_wordlist()
 
