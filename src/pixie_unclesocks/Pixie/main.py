@@ -10,12 +10,19 @@ from pixie.display import DisplayOutput
 def arguments():
 
     argument_parser = ArgumentParser(description="Defender's mini IP address workflow. Enter the organization keyword/s for searching, use space as a separator for multiple keywords; prepend the 'NOT' keyword to negate the search. The '-' character will process all IP addresses in the list without any keyword.")
-    argument_parser.add_argument("-w","--wordlist", default="ip.txt", help="Specify the location of the text file containing the IP addresses to be processed.")
-    argument_parser.add_argument("-n", "--netstat", action="store_true", help="Uses 'netstat -n' to capture public IP addresses communicating with the host.")
-    argument_parser.add_argument("-b", "--blacklist", default=None, help="[Optional] Specify the location of the text file containing the blacklist. If not specified Pixie will use the Cisco Talos Intelligence blacklist.")
-    argument_parser.add_argument("-o", "--output", help="[Optional] Specify the filename for the CSV file with the .csv extension.")
-    argument_parser.add_argument("-f", "--filter", nargs="+", default=[])
+    
+    argument_parser.add_argument("-w","--wordlist", default="ip.txt", 
+                                 help="Specify the location of the text file containing the IP addresses to be processed.")
+    argument_parser.add_argument("-n", "--netstat", action="store_true", 
+                                 help="Uses 'netstat -n' to capture public IP addresses communicating with the host.")
+    argument_parser.add_argument("-b", "--blacklist", default=None, 
+                                 help="[Optional] Specify the location of the text file containing the blacklist. If not specified Pixie will use the Cisco Talos Intelligence blacklist.")
+    argument_parser.add_argument("-o", "--output", 
+                                 help="[Optional] Specify the filename for the CSV file with the .csv extension.")
+    argument_parser.add_argument("-f", "--filter", nargs="+", default=[], 
+                                 help="[Optional] Accepts the following filters: CONFIDENCE, TOTALREPORTS, ISP, COUNTRY, and BLACKLISTED.")
     argument_parser.add_argument("-a", "--api")
+    
     argument = argument_parser.parse_args()
 
     return argument
