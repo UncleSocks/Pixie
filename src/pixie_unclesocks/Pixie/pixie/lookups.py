@@ -60,7 +60,7 @@ class AbuseIpDbLookup:
                 response = request(method='GET', url=url, headers=headers, params=query_string)
                 decoded_response = json.loads(response.text)
 
-                ip_address = decoded_response['data']['ipAddress']
+                ip_address = decoded_response['data'].get('ipAddress')
 
                 country_code = decoded_response['data'].get('countryCode', "NONE")
 

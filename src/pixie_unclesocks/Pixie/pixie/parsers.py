@@ -23,6 +23,12 @@ def ip_parser(wordlist):
     return ip_list
 
 
+def netstat_ipv6_cleaner(ipv6):
+
+    ipv6 = ipv6[1:].split("]")[0]
+    return ipv6
+
+
 def netstat_parser():
 
     print("Processing Netstat output...")
@@ -35,8 +41,14 @@ def netstat_parser():
     seen_foreign_addresses = set()
 
     for foreign_address in ns_foreign_address_parser:
-        foreign_address_and_port = foreign_address.split(":")
-        parsed_foreign_address = foreign_address_and_port[0]
+        
+        if foreign_address.startswith("["):
+            parsed_foreign_address = netstat_ipv6_cleaner(foreign_address)
+            print(parsed_foreign_address)
+
+        else:
+            foreign_address_and_port = foreign_address.split(":")
+            parsed_foreign_address = foreign_address_and_port[0]
         
         if not public_address_parser(parsed_foreign_address):
                 

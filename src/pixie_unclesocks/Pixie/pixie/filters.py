@@ -42,6 +42,11 @@ class FilterLogic:
                 "cast": str
             },
 
+            "DOMAIN": {
+                "extract": lambda record: record.get('Domain', '').upper(),
+                "cast": str
+            },
+
             "BLACKLISTED": {
                 "extract": lambda record: record.get('Blacklisted', False),
                 "cast": self._bool_cast
@@ -67,7 +72,7 @@ class FilterLogic:
 
     def build_filter(self):
         
-        filter_pattern = re.compile(r'((((?P<filter_key_int>CONFIDENCE|TOTALREPORTS)(?:\s*)?(?P<filter_op_int>>=|<=|==|!=|>|<|=))|((?P<filter_key_str>ISP|COUNTRY)(?:\s*)?(?P<filter_op_str>contains|!contains))|((?P<filter_key_bl>BLACKLISTED)(?:\s*)?(?P<filter_op_bl>==|=)))(?:\s*)?(?P<filter_value>\S+))', 
+        filter_pattern = re.compile(r'((((?P<filter_key_int>CONFIDENCE|TOTALREPORTS)(?:\s*)?(?P<filter_op_int>>=|<=|==|!=|>|<|=))|((?P<filter_key_str>ISP|COUNTRY|DOMAIN)(?:\s*)?(?P<filter_op_str>contains|!contains))|((?P<filter_key_bl>BLACKLISTED)(?:\s*)?(?P<filter_op_bl>==|=)))(?:\s*)?(?P<filter_value>\S+))', 
                                     re.IGNORECASE)
         if not filter_pattern:
             raise ValueError(f"Invalid filter format {filter}")
