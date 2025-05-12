@@ -7,3 +7,8 @@ __pycache__/blacklist.cpython-310.pyc
 __pycache__/output.cpython-310.pyc
 parser_modules/__pycache__/parsers.cpython-310.pyc
 parser_modules/__pycache__/stager.cpython-310.pyc
+src/pixie_unclesocks/Pixie/pixie/__pycache__/__init__.cpython-310.pyc
+src/pixie_unclesocks/Pixie/pixie/__pycache__/display.cpython-310.pyc
+src/pixie_unclesocks/Pixie/pixie/__pycache__/filters.cpython-310.pyc
+src/pixie_unclesocks/Pixie/pixie/__pycache__/lookups.cpython-310.pyc
+src/pixie_unclesocks/Pixie/pixie/__pycache__/parsers.cpython-310.pyc
