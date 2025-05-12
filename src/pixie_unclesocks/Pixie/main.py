@@ -456,9 +456,7 @@ def pixie_logo():
     return print(pixie_logo)
     
 
-
-
-if __name__ == "__main__":
+def main():
 
     pixie_logo()
     args = arguments()
@@ -486,3 +484,8 @@ if __name__ == "__main__":
         export_csv = DisplayOutput(filtered_ip)
         export_csv.report_dir_check()
         export_csv.csv_output(args.output)
+
+
+if __name__ == "__main__":
+    main()
+
