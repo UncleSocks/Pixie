@@ -5,9 +5,9 @@ import json
 import subprocess
 import csv
 import urllib.request
-from getpass import getpass
 from argparse import ArgumentParser
 from pathlib import Path
+from getpass import getpass
 
 from requests import request
 from prettytable import PrettyTable
