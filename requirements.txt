@@ -1,3 +1,1 @@
-ipinfo>=5.0.0
-maskpass>=0.3.7
 requests>=2.31.0
