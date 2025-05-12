@@ -1,15 +1,13 @@
 ![image](https://github.com/UncleSocks/pixie-defenders-automated-ip-address-workflow/assets/79778613/054144a3-2155-438b-a775-6dadd00802dd)
 
-# Pixie: Defender's Mini Automated IP Address Workflow
-![Static Badge](https://img.shields.io/badge/License%20-%20MIT%20-%20brown) ![Static Badge](https://img.shields.io/badge/Release-2024.4.0-orange) ![Static Badge](https://img.shields.io/badge/Supports-IPInfo%20and%20IBM%20X--Force%20API-blue)
+# Pixie: Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool
 
 
-A Python 3 script, named after my Mini Pinscher, automates IP address lookup using IPInfo or IBM X-Force API.
+An open-source script that performs mass IP address lookups against Abuse IP DB and a local or OSINT (StamparM's IpSum) blacklist.
 
-It accepts an IP address wordlist file or captures the foreign addresses the host machine is communicating to using netstat, then displays the output in **IPADDRESS[COUNTRY:ORGANIZATION:HOSTNAME]** format and automatically checks against a blacklist. The script also has a simple search engine that accepts IP address organization keyword/s and outputs the addresses matching the keyword/s (it can also negate your searches).
+Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages Abuse IP DB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's IpSum OSINT blacklist to enhance the threat insight of each IP address. 
 
-**NOTE:** The script requires you to supply your IPInfo API token or IBM X-Force API key and password.
-The tool aims to assist SOC analysts in parsing and processing large volumes of IP addresses that would otherwise be unmanageable. It can now also be used to process the IP addresses your host machine is communicating and check them against the blacklist.
+Filters are also available, wherein users can filter based on Abuse IP DB's _confidence score_, _total reports_, _domain_, _ISP_, _country code_, and whether the IP is _blacklisted_. Output is displayed as a PrettyTable in the CLI, and it can be exported as a CSV file.
 
 ## Prerequisites
 
@@ -17,7 +15,7 @@ Run `pip install -r requirements.txt` to install the tool's dependencies.
 
 ### Dependencies
 
-Pixie uses the `ipinfo` library to connect and query IP address information to and from IPInfo. It uses the `requests` library to perform HTTP/S API requests on IBM X-Force. The `maskpass` library is used to obfuscate the IPInfo Token.
+Only two third-party libraries are required: `requests` to connect to the Abuse IP DB and `PrettyTable` to display the console output in tabular format.
 
 ## Options
 
