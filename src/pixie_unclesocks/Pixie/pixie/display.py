@@ -1,7 +1,6 @@
 import csv
 from pathlib import Path
 
-from requests import request
 from prettytable import PrettyTable
 
 
