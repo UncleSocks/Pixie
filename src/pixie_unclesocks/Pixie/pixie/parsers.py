@@ -1,5 +1,6 @@
 import re
 import subprocess
+import platform
 
 
 
@@ -29,14 +30,32 @@ def netstat_ipv6_cleaner(ipv6):
     return ipv6
 
 
+def netstat_os_parse():
+
+    operating_system = platform.system()
+
+    if operating_system.upper() == "WINDOWS":
+        ns_output = subprocess.check_output(['netstat', '-n']).decode('ascii').strip().split("\n")
+        ns_output_startline = ns_output[5:]
+
+        ns_foreign_address_parser = [output[2] for output in map(str.split, ns_output_startline)]
+
+        return ns_foreign_address_parser
+    
+    elif operating_system.upper() == "LINUX":
+        ns_output = subprocess.check_output(['netstat', '-tun']).decode('ascii').strip().split("\n")
+        ns_output_startline = ns_output[2:]
+
+        ns_foreign_address_parser = [output[4] for output in map(str.split, ns_output_startline)]
+
+        return ns_foreign_address_parser
+
+
 def netstat_parser():
 
     print("Processing Netstat output...")
 
-    ns_output = subprocess.check_output('netstat -n').decode('ascii').strip().split("\n")
-    ns_output_startline = ns_output[5:]
-
-    ns_foreign_address_parser = [output[2] for output in map(str.split, ns_output_startline)]
+    ns_foreign_address_parser = netstat_os_parse()
     ns_address_list = []
     seen_foreign_addresses = set()
 
@@ -44,7 +63,6 @@ def netstat_parser():
         
         if foreign_address.startswith("["):
             parsed_foreign_address = netstat_ipv6_cleaner(foreign_address)
-            print(parsed_foreign_address)
 
         else:
             foreign_address_and_port = foreign_address.split(":")
