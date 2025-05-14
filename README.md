@@ -3,9 +3,9 @@
 # Pixie: Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool
 
 
-An open-source script that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's IpSum) blacklist.
+An open-source script that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's Ipsum) blacklist.
 
-Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's IpSum OSINT blacklist to enhance the threat insight.
+Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's Ipsum OSINT blacklist to enhance the threat insight.
 
 Users can also filter based on the confidence score, total number of reports, ISP, country code, domain name, and whether the IP is blacklisted.
 
@@ -17,9 +17,24 @@ Run `pip install -r requirements.txt` to install the tool's dependencies.
 
 Only two third-party libraries are required: `requests` to connect to the AbuseIPDB and `PrettyTable` to display the console output in tabular format.
 
-## Options
+## Usage
+Typical usage syntax of the tool is to specify the IP list text file and optionally specify your filter(s):
+```
+main.py --wordlist <ip_list.txt> --filter <filter-one> <filter-n>
+```
 
-You can append `-h` or `--help` to display a quick guide on how to use Pixie, including the available options.
+### Blacklist Threat Intelligence Feed
+Pixie uses StamparM's Ipsum as the blacklist threat intelligence feed, which is updated daily: 
+```
+https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/ipsum.txt
+```
+However, users can also specify a local blacklist file using the `--blacklist <blacklist_location.txt>` option. This is especially useful for internal threat feeds.
+
+### Netstat
+When using the `--netstat` instead of `--wordlist` option, the tool captures and parses the foreign addresses from the output of the `netstat -n` command. This just-in-time approach collects all foreign addresses, regardless of their state, in order to acquire as much data as possible.
+
+### Additional Options
+You can append `-h` or `--help` to display a quick guide on how to use Pixie. This will display additional available options.
 ```
 C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>main.py -h
 
