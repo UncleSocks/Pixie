@@ -5,9 +5,9 @@
 
 An open-source script that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's IpSum) blacklist.
 
-Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's IpSum OSINT blacklist to enhance the threat insight of each IP address. 
+Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's IpSum OSINT blacklist to enhance the threat insight.
 
-Filters are also available, wherein users can filter based on AbuseIPDB's _confidence score_, _total reports_, _domain_, _ISP_, _country code_, and whether the IP is _blacklisted_. Output is displayed as a PrettyTable in the CLI, and it can be exported as a CSV file.
+Users can also filter based on the confidence score, total number of reports, ISP, country code, domain name, and whether the IP is blacklisted.
 
 ## Prerequisites
 
@@ -61,3 +61,5 @@ Pixie uses the `Key-Operator-Value` format for its filter syntax. The table belo
 | DOMAIN | contains, !contains | str | Filters IPs by whether their domain name contains (or does not contain) a keyword. | "DOMAIN contains google" |
 | BLACKLISTED | == | bool | Filters IPs based on whether they are on the blacklist (`True`, `Yes`, `1`) or not (`False`, `No`, `0`) | "BLACKLISTED == True" |
 
+## Output
+The output is displayed in the CLI and can be exported as a CSV file if the `--output` option was included. All CSV files will be stored under the `reports` subdirectory, which will be automatically created if it does not exist.
