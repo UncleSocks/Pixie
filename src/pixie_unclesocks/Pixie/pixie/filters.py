@@ -54,13 +54,16 @@ class FilterLogic:
         }
         
 
-    def _contains(self, a_string, b_string):
+    @staticmethod
+    def _contains(a_string, b_string):
         return b_string.upper() in a_string.upper()
     
-    def _not_contains(self, a_string, b_string):
+    @staticmethod
+    def _not_contains(a_string, b_string):
         return b_string.upper() not in a_string.upper()
 
-    def _bool_cast(self, value):
+    @staticmethod
+    def _bool_cast(value):
 
         if value.strip().upper() in ("TRUE", "YES", "1"):
             return True
