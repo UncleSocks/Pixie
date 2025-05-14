@@ -63,3 +63,9 @@ Pixie uses the `Key-Operator-Value` format for its filter syntax. The table belo
 
 ## Output
 The output is displayed in the CLI and can be exported as a CSV file if the `--output` option was included. All CSV files will be stored under the `reports` subdirectory, which will be automatically created if it does not exist.
+
+
+## Lite Versions
+Multiple lightweight versions of Pixie are available in the `Lite` directory. These are single Python files that are non-interactive and _only_ execute bulk address lookups. They do not perform blacklist checks nor filtering.
+
+For the Lite versions, the API key needs to be stored in the `api.txt` file.
