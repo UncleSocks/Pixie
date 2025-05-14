@@ -1,4 +1,4 @@
-![image](https://github.com/UncleSocks/pixie-defenders-automated-ip-address-workflow/assets/79778613/054144a3-2155-438b-a775-6dadd00802dd)
+![image](https://github.com/user-attachments/assets/e91c0487-671c-4fea-819a-7d2cb2dfe524)
 
 # Pixie: Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool
 
