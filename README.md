@@ -9,6 +9,8 @@ Pixie either uses the specified local IP address list file or captures the forei
 
 Users can also filter based on the confidence score, total number of reports, ISP, country code, domain name, and whether the IP is blacklisted.
 
+![pixie](https://github.com/user-attachments/assets/996c0e91-1987-482d-95ac-6f7521f4a1cc)
+
 ## Prerequisites
 
 Run `pip install -r requirements.txt` to install the tool's dependencies.
