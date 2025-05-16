@@ -91,9 +91,10 @@ class FilterLogic:
             op = filter_match.group('filter_op_int') or filter_match.group('filter_op_str') or filter_match.group('filter_op_bl')
             value = filter_match.group('filter_value')
 
-            config = self.filter_config.get(key)
+            key_normalized = key.upper()
+            config = self.filter_config.get(key_normalized)
             if not config:
-                raise ValueError(f"ERR-FL02: Unknown filter key {key}.")
+                raise ValueError(f"ERR-FL02: Unknown filter key {key_normalized}.")
 
             extracted = config['extract']
             cast = config['cast']
