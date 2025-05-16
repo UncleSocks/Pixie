@@ -8,7 +8,6 @@ def ip_parser(wordlist):
 
     print("Parsing IP address from the wordlist...")
 
-    total_ips = len(wordlist)
     ip_list = []
     
     try:
@@ -19,6 +18,7 @@ def ip_parser(wordlist):
     except:
         raise ValueError(f"ERR-IN01: File '{wordlist}' cannot be found. If the --wordlist option is not specified, Pixie uses the default 'ip.txt' file as its wordlist")
     
+    total_ips = len(ip_list)
     print(f"Parsing complete. Captured {total_ips} IP addresses.\n")
 
     return ip_list
