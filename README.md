@@ -22,7 +22,7 @@ Only two third-party libraries are required: `requests` to connect to the AbuseI
 ## Usage
 Typical usage syntax of the tool is to specify the IP list text file and optionally specify your filter(s):
 ```
-main.py --wordlist <ip_list.txt> --filter <filter-one> <filter-n>
+pixie.py --wordlist <ip_list.txt> --filter <filter-one> <filter-n>
 ```
 
 ### Blacklist Threat Intelligence Feed
@@ -38,7 +38,7 @@ When using the `--netstat` instead of `--wordlist` option, the tool captures and
 ### Additional Options
 You can append `-h` or `--help` to display a quick guide on how to use Pixie. This will display additional available options.
 ```
-C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>main.py -h
+C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>pixie.py -h
 
 usage: main.py [-h] [-w WORDLIST] [-n] [-b BLACKLIST] [-o OUTPUT] [-f FILTER [FILTER ...]] [-a API]
 
@@ -62,7 +62,7 @@ options:
 The tool is capable of accepting multiple filters by adding the `--filter` or `-f` option, which are applied after the tool has completed the AbuseIPDB and blacklist check for all IP addresses. 
 
 ```
-main.py --filter "CONFIDENCE >= 90" "BLACKLISTED == True" "ISP !contains Microsoft"
+pixie.py --filter "CONFIDENCE >= 90" "BLACKLISTED == True" "ISP !contains Microsoft"
 ```
 
 ### Filter Syntax Table
