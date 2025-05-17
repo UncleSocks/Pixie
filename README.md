@@ -3,13 +3,13 @@
 # Pixie: Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool
 
 
-An open-source script that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's Ipsum) blacklist.
+An open-source script, named after my Mini Pinscher, that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's Ipsum) blacklist.
 
-Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's Ipsum OSINT blacklist to enhance the threat insight.
+Pixie either uses the specified local IP address list file or captures the foreign addresses from Netstat as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a local or StamparM's Ipsum OSINT blacklist to enhance their threat insight.
 
 Users can also filter based on the confidence score, total number of reports, ISP, country code, domain name, and whether the IP is blacklisted.
 
-![pixie](https://github.com/user-attachments/assets/996c0e91-1987-482d-95ac-6f7521f4a1cc)
+![pixie](https://github.com/user-attachments/assets/0a4c7518-51e9-41b1-94ba-9f1a80a3f5b9)
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ Only two third-party libraries are required: `requests` to connect to the AbuseI
 ## Usage
 Typical usage syntax of the tool is to specify the IP list text file and optionally specify your filter(s):
 ```
-main.py --wordlist <ip_list.txt> --filter <filter-one> <filter-n>
+pixie.py --wordlist <ip_list.txt> --filter <filter-one> <filter-n>
 ```
 
 ### Blacklist Threat Intelligence Feed
@@ -38,7 +38,7 @@ When using the `--netstat` instead of `--wordlist` option, the tool captures and
 ### Additional Options
 You can append `-h` or `--help` to display a quick guide on how to use Pixie. This will display additional available options.
 ```
-C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>main.py -h
+C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>pixie.py -h
 
 usage: main.py [-h] [-w WORDLIST] [-n] [-b BLACKLIST] [-o OUTPUT] [-f FILTER [FILTER ...]] [-a API]
 
@@ -62,7 +62,7 @@ options:
 The tool is capable of accepting multiple filters by adding the `--filter` or `-f` option, which are applied after the tool has completed the AbuseIPDB and blacklist check for all IP addresses. 
 
 ```
-C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>main.py --filter "CONFIDENCE >= 90" "BLACKLISTED == True" "ISP !contains Microsoft"
+pixie.py --filter "CONFIDENCE >= 90" "BLACKLISTED == True" "ISP !contains Microsoft"
 ```
 
 ### Filter Syntax Table
