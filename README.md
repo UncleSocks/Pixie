@@ -9,7 +9,7 @@ Pixie either uses the specified local IP address list file or captures the forei
 
 Users can also filter based on the confidence score, total number of reports, ISP, country code, domain name, and whether the IP is blacklisted.
 
-![pixie](https://github.com/user-attachments/assets/996c0e91-1987-482d-95ac-6f7521f4a1cc)
+![pixie](https://github.com/user-attachments/assets/0a4c7518-51e9-41b1-94ba-9f1a80a3f5b9)
 
 ## Prerequisites
 
