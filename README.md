@@ -3,9 +3,9 @@
 # Pixie: Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool
 
 
-An open-source script that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's Ipsum) blacklist.
+An open-source script, named after my Mini Pinscher, that performs mass IP address lookups against AbuseIPDB and a local or OSINT (StamparM's Ipsum) blacklist.
 
-Pixie either uses the specified local IP address list file or captures the foreign addresses the host machine is communicating with `netstat -n` as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a locally provided or StamparM's Ipsum OSINT blacklist to enhance the threat insight.
+Pixie either uses the specified local IP address list file or captures the foreign addresses from Netstat as its input. The tool leverages AbuseIPDB's APIv2 to perform address abuse lookups, then compares it to a local or StamparM's Ipsum OSINT blacklist to enhance their threat insight.
 
 Users can also filter based on the confidence score, total number of reports, ISP, country code, domain name, and whether the IP is blacklisted.
 
@@ -62,7 +62,7 @@ options:
 The tool is capable of accepting multiple filters by adding the `--filter` or `-f` option, which are applied after the tool has completed the AbuseIPDB and blacklist check for all IP addresses. 
 
 ```
-C:\Users\UncleSocks\Pixie\Pixie\src\pixie_unclesocks\Pixie>main.py --filter "CONFIDENCE >= 90" "BLACKLISTED == True" "ISP !contains Microsoft"
+main.py --filter "CONFIDENCE >= 90" "BLACKLISTED == True" "ISP !contains Microsoft"
 ```
 
 ### Filter Syntax Table
