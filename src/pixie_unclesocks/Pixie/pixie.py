@@ -109,14 +109,14 @@ def main():
     applied_filter = filter.build_filter()
 
     abuse = AbuseIpDbLookup(api_key)
-    check_abuse_connection = abuse.abuse_api_check()
+    abuse.abuse_api_check() #Checks Abuse IP DB connection.
 
     processed_ip_list = AbuseIpDbLookup(api_key).abuse_lookup(ip_list)
     blacklisted_processed_ip_list = BlacklistLookup(args.blacklist).blacklist_check(processed_ip_list)
 
     filtered_ip = filter.apply_filter(blacklisted_processed_ip_list, applied_filter)
 
-    display = DisplayOutput(filtered_ip).display_cli_table()
+    DisplayOutput(filtered_ip).display_cli_table() #Displays output in the CLI.
     if args.output:
         export_csv = DisplayOutput(filtered_ip)
         export_csv.report_dir_check()
