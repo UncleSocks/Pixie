@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/8c4a767e-a73b-4e51-b682-987fe7c7aaee)
+![image-removebg-preview](https://github.com/user-attachments/assets/44bb808d-a7d2-49b2-bfac-6e1da632844c)
 
 # Pixie: Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool
 
