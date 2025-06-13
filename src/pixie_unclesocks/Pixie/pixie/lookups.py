@@ -4,8 +4,6 @@ import urllib.request
 
 from requests import request
 
-from pixie import public_address_parser
-
 
 
 class AbuseIpDbLookup:
@@ -55,10 +53,11 @@ class AbuseIpDbLookup:
                 'maxAgeInDays':'30'
             }
 
-            if not public_address_parser(ip):
+            response = request(method='GET', url=url, headers=headers, params=query_string)
+            decoded_response = json.loads(response.text)
+            is_public = bool(decoded_response['data'].get('isPublic'))
 
-                response = request(method='GET', url=url, headers=headers, params=query_string)
-                decoded_response = json.loads(response.text)
+            if is_public:
 
                 ip_address = decoded_response['data'].get('ipAddress')
 

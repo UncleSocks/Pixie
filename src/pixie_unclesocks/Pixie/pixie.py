@@ -29,6 +29,7 @@ from pixie.lookups import AbuseIpDbLookup, BlacklistLookup
 from pixie.display import DisplayOutput
 
 
+
 def arguments():
 
     argument_parser = ArgumentParser(description="Defender's 'Mini' IP Abuse and Blacklist Mass Lookup Tool.")
