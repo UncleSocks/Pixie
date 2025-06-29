@@ -23,32 +23,32 @@ class FilterLogic:
 
         self.filter_config = {
             "CONFIDENCE": {
-                "extract": lambda record: record.get('Raw Abuse Score', 0),
+                "extract": lambda ip_abuse_record: ip_abuse_record.get('Raw Abuse Score', 0),
                 "cast": int
             },
 
             "TOTALREPORTS": {
-                "extract": lambda record: record.get('Total Reports', 0),
+                "extract": lambda ip_abuse_record: ip_abuse_record.get('Total Reports', 0),
                 "cast": int
             },
 
             "ISP": {
-                "extract": lambda record: record.get('ISP', '').upper(),
+                "extract": lambda ip_abuse_record: ip_abuse_record.get('ISP', '').upper(),
                 "cast": str
             },
 
             "COUNTRYCODE": {
-                "extract": lambda record: record.get('Country Code', '').upper(),
+                "extract": lambda ip_abuse_record: ip_abuse_record.get('Country Code', '').upper(),
                 "cast": str
             },
 
             "DOMAIN": {
-                "extract": lambda record: record.get('Domain', '').upper(),
+                "extract": lambda ip_abuse_record: ip_abuse_record.get('Domain', '').upper(),
                 "cast": str
             },
 
             "BLACKLISTED": {
-                "extract": lambda record: record.get('Blacklisted', False),
+                "extract": lambda ip_abuse_record: ip_abuse_record.get('Blacklisted', False),
                 "cast": self._bool_cast
             }
         }
@@ -109,7 +109,7 @@ class FilterLogic:
             except:
                raise ValueError(f"ERR-FL04: Invalid cast for value {value}.") 
 
-            parsed_filters.append(lambda record, op=op_func, value=value, extracted=extracted: op(extracted(record), value))
+            parsed_filters.append(lambda ip_absuse_record, op=op_func, value=value, extracted=extracted: op(extracted(ip_absuse_record), value))
 
         return parsed_filters
     
