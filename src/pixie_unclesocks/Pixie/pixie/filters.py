@@ -85,6 +85,7 @@ class FilterLogic:
         parsed_filters = []
 
         for filter in self.filter_args:
+            
             filter_match = filter_pattern.fullmatch(filter)
 
             if not filter_match:
