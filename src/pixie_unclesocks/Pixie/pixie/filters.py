@@ -67,8 +67,10 @@ class FilterLogic:
 
         if value.strip().upper() in ("TRUE", "YES", "1"):
             return True
+        
         elif value.strip().upper() in ("FALSE", "NO", "0"):
             return False
+        
         else:
             raise ValueError(f"ERR-FL05: Invalid value {value} for BLACKLISTED field. Use True/False, Yes/No, or 1/0 only.")
 
@@ -84,6 +86,7 @@ class FilterLogic:
 
         for filter in self.filter_args:
             filter_match = filter_pattern.fullmatch(filter)
+
             if not filter_match:
                 raise ValueError(f"ERR-FL01: Invalid filter format: '{filter}'. Expected format like 'CONFIDENCE >= 85'.")            
 
@@ -93,6 +96,7 @@ class FilterLogic:
 
             normalized_filter_key = filter_key.upper()
             filter_configuration = self.filter_config.get(normalized_filter_key)
+
             if not filter_configuration:
                 raise ValueError(f"ERR-FL02: Unknown filter key {normalized_filter_key}.")
 
@@ -117,6 +121,7 @@ class FilterLogic:
     def apply_filter(self, ip_list, filters):
 
         if self.filter_args:
+
             applied_filters = filters
             filtered_ip_list = [ip for ip in ip_list if all(filter(ip) for filter in applied_filters)]
 
