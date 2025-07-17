@@ -23,32 +23,32 @@ class FilterLogic:
 
         self.filter_config = {
             "CONFIDENCE": {
-                "extract": lambda ip_abuse_record: ip_abuse_record.get('Raw Abuse Score', 0),
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Raw Abuse Score', 0),
                 "cast": int
             },
 
             "TOTALREPORTS": {
-                "extract": lambda ip_abuse_record: ip_abuse_record.get('Total Reports', 0),
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Total Reports', 0),
                 "cast": int
             },
 
             "ISP": {
-                "extract": lambda ip_abuse_record: ip_abuse_record.get('ISP', '').upper(),
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('ISP', '').upper(),
                 "cast": str
             },
 
             "COUNTRYCODE": {
-                "extract": lambda ip_abuse_record: ip_abuse_record.get('Country Code', '').upper(),
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Country Code', '').upper(),
                 "cast": str
             },
 
             "DOMAIN": {
-                "extract": lambda ip_abuse_record: ip_abuse_record.get('Domain', '').upper(),
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Domain', '').upper(),
                 "cast": str
             },
 
             "BLACKLISTED": {
-                "extract": lambda ip_abuse_record: ip_abuse_record.get('Blacklisted', False),
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Blacklisted', False),
                 "cast": self._bool_cast
             }
         }
@@ -87,29 +87,29 @@ class FilterLogic:
             if not filter_match:
                 raise ValueError(f"ERR-FL01: Invalid filter format: '{filter}'. Expected format like 'CONFIDENCE >= 85'.")            
 
-            key = filter_match.group('filter_key_int') or filter_match.group('filter_key_str') or filter_match.group('filter_key_bl')
-            op = filter_match.group('filter_op_int') or filter_match.group('filter_op_str') or filter_match.group('filter_op_bl')
-            value = filter_match.group('filter_value')
+            filter_key = filter_match.group('filter_key_int') or filter_match.group('filter_key_str') or filter_match.group('filter_key_bl')
+            filter_operation = filter_match.group('filter_op_int') or filter_match.group('filter_op_str') or filter_match.group('filter_op_bl')
+            filter_value = filter_match.group('filter_value')
 
-            key_normalized = key.upper()
-            config = self.filter_config.get(key_normalized)
-            if not config:
-                raise ValueError(f"ERR-FL02: Unknown filter key {key_normalized}.")
+            normalized_filter_key = filter_key.upper()
+            filter_configuration = self.filter_config.get(normalized_filter_key)
+            if not filter_configuration:
+                raise ValueError(f"ERR-FL02: Unknown filter key {normalized_filter_key}.")
 
-            extracted = config['extract']
-            cast = config['cast']
+            extracted_value = filter_configuration['extract_value']
+            cast_value = filter_configuration['cast']
 
             try:
-                op_func = self.operator_map[op]
+                run_operation = self.operator_map[filter_operation]
             except:
                 raise ValueError(f"ERR-FL03: Invalid operator. Use --help option for more information on the available operators.")
 
             try:
-                value = cast(value)
+                casted_filter_value = cast_value(filter_value)
             except:
-               raise ValueError(f"ERR-FL04: Invalid cast for value {value}.") 
+               raise ValueError(f"ERR-FL04: Invalid cast for value {filter_value}.") 
 
-            parsed_filters.append(lambda ip_absuse_record, op=op_func, value=value, extracted=extracted: op(extracted(ip_absuse_record), value))
+            parsed_filters.append(lambda ip_absuse_record, operation=run_operation, value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
 
         return parsed_filters
     
