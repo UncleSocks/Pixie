@@ -77,8 +77,30 @@ class FilterLogic:
 
     def build_filter(self):
         
-        filter_pattern = re.compile(r'((((?P<filter_key_int>CONFIDENCE|TOTALREPORTS)(?:\s*)?(?P<filter_op_int>>=|<=|==|!=|>|<|=))|((?P<filter_key_str>ISP|COUNTRYCODE|DOMAIN)(?:\s*)?(?P<filter_op_str>contains|!contains))|((?P<filter_key_bl>BLACKLISTED)(?:\s*)?(?P<filter_op_bl>==|=)))(?:\s*)?(?P<filter_value>\S+))', 
-                                    re.IGNORECASE)
+        filter_pattern = re.compile(r"""
+            (                                           
+                (   # Integer-related filter keys
+                    (?P<filter_key_int>CONFIDENCE|TOTALREPORTS)
+                    \s*
+                    (?P<filter_op_int>>=|<=|==|!=|>|<|=)
+                )
+                |
+                (   # String-related filter keys
+                    (?P<filter_key_str>ISP|COUNTRYCODE|DOMAIN)
+                    \s*
+                    (?P<filter_op_str>contains|!contains)
+                )
+                |
+                (   # Boolean-related filter kay
+                    (?P<filter_key_bl>BLACKLISTED)
+                    \s*
+                    (?P<filter_op_bl>==|=)
+                )
+            )
+            \s*
+            (?P<filter_value>\S+)   # Filter value
+            """, re.IGNORECASE | re.VERBOSE)
+
         if not filter_pattern:
             raise ValueError(f"Invalid filter format {filter}")
 
