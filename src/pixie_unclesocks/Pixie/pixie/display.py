@@ -14,10 +14,12 @@ class DisplayOutput:
     def display_cli_table(self):
 
         table = PrettyTable()
-        table.field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
+        table.field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 
+                             'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
 
         for ip in self.filtered_ip_list:
-            table.add_row([ip['IP Address'], ip['Country Code'], ip['Hostnames'], ip['Domain'], ip['ISP'], ip['Abuse Score'], ip['Total Reports'], ip['Last Reported At'], ip['Blacklisted']])
+            table.add_row([ip['IP Address'], ip['Country Code'], ip['Hostnames'], ip['Domain'], 
+                           ip['ISP'], ip['Abuse Score'], ip['Total Reports'], ip['Last Reported At'], ip['Blacklisted']])
 
         table.align = "l"
         table.max_width['Hostnames'] = 20
@@ -48,7 +50,8 @@ class DisplayOutput:
 
         try:
             with open(f'./reports/{filename}', 'w', newline='') as csv_export:
-                field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
+                field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 
+                               'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
                 writer = csv.DictWriter(csv_export, fieldnames=field_names)
                 writer.writeheader()
 
@@ -58,6 +61,5 @@ class DisplayOutput:
             print("Successful exported the output.")
 
         except:
-            raise ValueError(f"ERR-OUT01: Failed to export output to a CSV file.")
-        
+            raise ValueError(f"ERR-OUT01: Failed to export output to a CSV file.")   
         return

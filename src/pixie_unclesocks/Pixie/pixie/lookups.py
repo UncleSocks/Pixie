@@ -87,7 +87,8 @@ class AbuseIpDbLookup:
                 total_reports = 0
                 last_reported_at = "NOT APPLICABLE"
 
-            processed_ip = {"IP Address":str(ip_address), "Country Code":str(country_code), "Hostnames":str(hostnames), "Domain":str(domain), "ISP":str(isp), "Raw Abuse Score":int(abuse_raw_score), \
+            processed_ip = {"IP Address":str(ip_address), "Country Code":str(country_code), "Hostnames":str(hostnames), \
+                            "Domain":str(domain), "ISP":str(isp), "Raw Abuse Score":int(abuse_raw_score), \
                             "Abuse Score":str(abuse_score), "Total Reports":int(total_reports), "Last Reported At":str(last_reported_at)}
             processed_ip_list.append(processed_ip)
 

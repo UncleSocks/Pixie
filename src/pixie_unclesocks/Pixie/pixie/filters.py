@@ -91,8 +91,14 @@ class FilterLogic:
             if not filter_match:
                 raise ValueError(f"ERR-FL01: Invalid filter format: '{filter}'. Expected format like 'CONFIDENCE >= 85'.")            
 
-            filter_key = filter_match.group('filter_key_int') or filter_match.group('filter_key_str') or filter_match.group('filter_key_bl')
-            filter_operation = filter_match.group('filter_op_int') or filter_match.group('filter_op_str') or filter_match.group('filter_op_bl')
+            filter_key = filter_match.group('filter_key_int') or \
+                filter_match.group('filter_key_str') or \
+                filter_match.group('filter_key_bl')
+            
+            filter_operation = filter_match.group('filter_op_int') or \
+                filter_match.group('filter_op_str') or \
+                filter_match.group('filter_op_bl')
+            
             filter_value = filter_match.group('filter_value')
 
             normalized_filter_key = filter_key.upper()
@@ -114,7 +120,8 @@ class FilterLogic:
             except:
                raise ValueError(f"ERR-FL04: Invalid cast for value {filter_value}.") 
 
-            parsed_filters.append(lambda ip_absuse_record, operation=run_operation, value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
+            parsed_filters.append(lambda ip_absuse_record, operation=run_operation, 
+                                  value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
 
         return parsed_filters
     
