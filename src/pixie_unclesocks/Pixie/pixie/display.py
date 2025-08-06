@@ -12,7 +12,6 @@ class DisplayOutput:
         self.filtered_ip_list = filtered_ip_list
 
     def display_cli_table(self):
-
         table = PrettyTable()
         table.field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 
                              'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
@@ -30,7 +29,6 @@ class DisplayOutput:
     
 
     def report_dir_check(self):
-
         print("\nChecking for the required directory for CSV export...")
         report_dir = Path(".\\reports")
 
@@ -45,7 +43,6 @@ class DisplayOutput:
 
 
     def csv_output(self, filename):
-
         print("Exporting output to a CSV file...")
 
         try:

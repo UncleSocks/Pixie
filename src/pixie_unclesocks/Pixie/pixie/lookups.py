@@ -12,7 +12,6 @@ class AbuseIpDbLookup:
         self.api_key = api_key
 
     def abuse_api_check(self):
-        
         print("\nTesting Abuse IP DB API connection...")
         
         url = 'https://api.abuseipdb.com/api/v2/check'
@@ -34,8 +33,8 @@ class AbuseIpDbLookup:
     
 
     def abuse_lookup(self, ip_list):
-
         print("Performing Abuse IP DB lookup...")
+
         processed_ip_list = []
         total_ips = len(ip_list)
         start_time = time.time()
@@ -109,7 +108,6 @@ class BlacklistLookup:
         self.blacklist_source = blacklist_source
 
     def osint_blacklist(self):
-        
         blacklist_url = "https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt"
         print(f"Updating IP address blacklist from {blacklist_url}")
 
@@ -126,7 +124,6 @@ class BlacklistLookup:
 
 
     def local_blacklist(self):
-
         print("Parsing local blacklist file...")
         parsed_local_blacklist = []
 
@@ -145,7 +142,6 @@ class BlacklistLookup:
 
 
     def blacklist_check (self, ip_list):
-
         if self.blacklist_source != None:
             blacklist = self.local_blacklist()
         else:

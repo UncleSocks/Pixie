@@ -31,7 +31,6 @@ from pixie.display import DisplayOutput
 
 
 def arguments():
-
     argument_parser = ArgumentParser(description="Defender's 'Mini' IP Abuse and Blacklist Mass Lookup Tool.")
     
     argument_parser.add_argument("-w","--wordlist", default="ip.txt", 
@@ -47,12 +46,10 @@ def arguments():
     argument_parser.add_argument("-a", "--api", help="[Optional] Enter the Abuse IP DB APIv2 key in-line.")
     
     argument = argument_parser.parse_args()
-
     return argument
 
 
 def pixie_logo():
-
     pixie_logo = """
 
 =============================================================================================
@@ -94,7 +91,6 @@ def pixie_logo():
     
 
 def main():
-
     pixie_logo()
     args = arguments()
 
@@ -125,4 +121,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

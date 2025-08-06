@@ -6,7 +6,6 @@ import operator
 class FilterLogic:
 
     def __init__(self, filter_args):
-
         self.filter_args = filter_args
 
         self.operator_map = {
@@ -76,34 +75,8 @@ class FilterLogic:
 
 
     def build_filter(self):
-        
-        filter_pattern = re.compile(r"""
-            (                                           
-                (   # Integer-related filter keys
-                    (?P<filter_key_int>CONFIDENCE|TOTALREPORTS)
-                    \s*
-                    (?P<filter_op_int>>=|<=|==|!=|>|<|=)
-                )
-                |
-                (   # String-related filter keys
-                    (?P<filter_key_str>ISP|COUNTRYCODE|DOMAIN)
-                    \s*
-                    (?P<filter_op_str>contains|!contains)
-                )
-                |
-                (   # Boolean-related filter kay
-                    (?P<filter_key_bl>BLACKLISTED)
-                    \s*
-                    (?P<filter_op_bl>==|=)
-                )
-            )
-            \s*
-            (?P<filter_value>\S+)   # Filter value
-            """, re.IGNORECASE | re.VERBOSE)
 
-        if not filter_pattern:
-            raise ValueError(f"Invalid filter format {filter}")
-
+        filter_pattern = self._filter_regex_patter()
         parsed_filters = []
 
         for filter in self.filter_args:
@@ -144,14 +117,41 @@ class FilterLogic:
 
             parsed_filters.append(lambda ip_absuse_record, operation=run_operation, 
                                   value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
-
+            
         return parsed_filters
     
+    def _filter_regex_patter(self):
+        filter_pattern = re.compile(r"""
+            (                                           
+                (   # Integer-related filter keys
+                    (?P<filter_key_int>CONFIDENCE|TOTALREPORTS)
+                    \s*
+                    (?P<filter_op_int>>=|<=|==|!=|>|<|=)
+                )
+                |
+                (   # String-related filter keys
+                    (?P<filter_key_str>ISP|COUNTRYCODE|DOMAIN)
+                    \s*
+                    (?P<filter_op_str>contains|!contains)
+                )
+                |
+                (   # Boolean-related filter kay
+                    (?P<filter_key_bl>BLACKLISTED)
+                    \s*
+                    (?P<filter_op_bl>==|=)
+                )
+            )
+            \s*
+            (?P<filter_value>\S+)   # Filter value
+            """, re.IGNORECASE | re.VERBOSE)
+
+        if not filter_pattern:
+            raise ValueError(f"Invalid filter format {filter}")
+        else:
+            return filter_pattern
 
     def apply_filter(self, ip_list, filters):
-
         if self.filter_args:
-
             applied_filters = filters
             filtered_ip_list = [ip for ip in ip_list if all(filter(ip) for filter in applied_filters)]
 

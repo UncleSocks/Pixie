@@ -5,9 +5,7 @@ import platform
 
 
 def ip_parser(wordlist):
-
     print("Parsing IP address from the wordlist...")
-
     ip_list = []
     
     try:
@@ -25,13 +23,11 @@ def ip_parser(wordlist):
 
 
 def netstat_ipv6_cleaner(ipv6):
-
     ipv6 = ipv6[1:].split("]")[0]
     return ipv6
 
 
 def netstat_os_parse():
-
     operating_system = platform.system()
 
     if operating_system.upper() == "WINDOWS":
@@ -52,7 +48,6 @@ def netstat_os_parse():
 
 
 def netstat_parser():
-
     print("Processing Netstat output...")
 
     ns_foreign_address_parser = netstat_os_parse()
