@@ -22,7 +22,7 @@ Only two third-party libraries are required: `requests` to connect to the AbuseI
 ## Usage
 Typical usage syntax of the tool is to specify the IP list text file and optionally specify your filter(s):
 ```
-pixie.py --wordlist <ip_list.txt> --filter <filter-one> <filter-n>
+pixie.py --wordlist <ip_list.txt> --filter "<filter-one>" "<filter-n>"
 ```
 
 ### Blacklist Threat Intelligence Feed
