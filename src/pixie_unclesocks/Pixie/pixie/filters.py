@@ -1,5 +1,17 @@
 import re
 import operator
+from enum import Enum
+
+
+
+class FilterKeys(Enum):
+    CONFIDENCE = "CONFIDENCE"
+    TOTALREPORTS = "TOTALREPORTS"
+    USAGETYPE = "USAGETYPE"
+    ISP = "ISP"
+    COUNTRYCODE = "COUNTRYCODE"
+    DOMAIN = "DOMAIN"
+    BLACKLISTED = "BLACKLISTED"
 
 
 
@@ -20,31 +32,31 @@ class FilterLogic:
         }
 
         self.filter_config = {
-            "CONFIDENCE": {
+            FilterKeys.CONFIDENCE.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Raw Abuse Score', 0),
                 "cast": int
             },
-            "TOTALREPORTS": {
+            FilterKeys.TOTALREPORTS.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Total Reports', 0),
                 "cast": int
             },
-            "USAGETYPE": {
+            FilterKeys.USAGETYPE.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Usage Type', '').upper(),
                 "cast": str
             },
-            "ISP": {
+            FilterKeys.ISP.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('ISP', '').upper(),
                 "cast": str
             },
-            "COUNTRYCODE": {
+            FilterKeys.COUNTRYCODE.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Country Code', '').upper(),
                 "cast": str
             },
-            "DOMAIN": {
+            FilterKeys.DOMAIN.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Domain', '').upper(),
                 "cast": str
             },
-            "BLACKLISTED": {
+            FilterKeys.BLACKLISTED.value: {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Blacklisted', False),
                 "cast": self._bool_cast
             }
@@ -81,6 +93,25 @@ class FilterLogic:
             if not filter_match:
                 raise ValueError(f"ERR-FL01: Invalid filter format: '{filter}'. Expected format like 'CONFIDENCE >= 85'.")            
 
+            filter_key, filter_operation, filter_value = self._capture_regex_pattern(filter_match)
+            filter_configuration = self._fetch_filter_config(filter_key)
+            extracted_value = filter_configuration['extract_value']
+            cast_value = filter_configuration['cast']
+
+            try:
+                run_operation = self.operator_map[filter_operation]
+            except:
+                raise ValueError(f"ERR-FL03: Invalid operator. Use --help option for more information on the available operators.")
+            try:
+                casted_filter_value = cast_value(filter_value)
+            except:
+               raise ValueError(f"ERR-FL04: Invalid cast for value {filter_value}.") 
+
+            parsed_filters.append(lambda ip_absuse_record, operation=run_operation, 
+                                  value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
+        return parsed_filters
+    
+    def _capture_regex_pattern(self, filter_match):
             filter_key = filter_match.group('filter_key_int') \
                 or filter_match.group('filter_key_str') \
                     or filter_match.group('filter_key_cc') \
@@ -96,28 +127,15 @@ class FilterLogic:
                     or filter_match.group('filter_val_cc') \
                         or filter_match.group('filter_val_bl')
             
-            normalized_filter_key = filter_key.upper()
-            filter_configuration = self.filter_config.get(normalized_filter_key)
-
-            if not filter_configuration:
-                raise ValueError(f"ERR-FL02: Unknown filter key {normalized_filter_key}.")
-
-            extracted_value = filter_configuration['extract_value']
-            cast_value = filter_configuration['cast']
-
-            try:
-                run_operation = self.operator_map[filter_operation]
-            except:
-                raise ValueError(f"ERR-FL03: Invalid operator. Use --help option for more information on the available operators.")
-
-            try:
-                casted_filter_value = cast_value(filter_value)
-            except:
-               raise ValueError(f"ERR-FL04: Invalid cast for value {filter_value}.") 
-
-            parsed_filters.append(lambda ip_absuse_record, operation=run_operation, 
-                                  value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
-        return parsed_filters
+            return filter_key, filter_operation, filter_value
+    
+    def _fetch_filter_config(self, filter_key):
+        normalized_filter_key = filter_key.upper()
+        filter_configuration = self.filter_config.get(normalized_filter_key)
+        if not filter_configuration:
+            raise ValueError(f"ERR-FL02: Unknown filter key {normalized_filter_key}.")
+        else:
+            return filter_configuration
     
     def _filter_regex_patter(self):
         filter_pattern = re.compile(r"""
@@ -135,7 +153,7 @@ class FilterLogic:
                     \s*
                     (?P<filter_op_str>contains|!contains)
                     \s*
-                    (?P<filter_val_str>\S+)
+                    (?P<filter_val_str>[\S\s]+)
                 )
                 |
                 (   # Country code regex:
