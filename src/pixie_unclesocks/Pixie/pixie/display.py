@@ -8,16 +8,16 @@ from prettytable import PrettyTable
 class DisplayOutput:
 
     def __init__(self, filtered_ip_list):
-
         self.filtered_ip_list = filtered_ip_list
+        self.field_names = ['IP Address', 'Country Code', 'Usage Type', 'Hostnames', 'Domain', 'ISP', 
+                            'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
 
     def display_cli_table(self):
         table = PrettyTable()
-        table.field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 
-                             'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
+        table.field_names = self.field_names
 
         for ip in self.filtered_ip_list:
-            table.add_row([ip['IP Address'], ip['Country Code'], ip['Hostnames'], ip['Domain'], 
+            table.add_row([ip['IP Address'], ip['Country Code'], ip['Usage Type'], ip['Hostnames'], ip['Domain'], 
                            ip['ISP'], ip['Abuse Score'], ip['Total Reports'], ip['Last Reported At'], ip['Blacklisted']])
 
         table.align = "l"
@@ -47,13 +47,11 @@ class DisplayOutput:
 
         try:
             with open(f'./reports/{filename}', 'w', newline='') as csv_export:
-                field_names = ['IP Address', 'Country Code', 'Hostnames', 'Domain', 'ISP', 
-                               'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
-                writer = csv.DictWriter(csv_export, fieldnames=field_names)
+                writer = csv.DictWriter(csv_export, fieldnames=self.field_names)
                 writer.writeheader()
 
                 for ip in self.filtered_ip_list:
-                    writer.writerow({key: ip.get(key, '') for key in field_names})
+                    writer.writerow({key: ip.get(key, '') for key in self.field_names})
 
             print("Successful exported the output.")
 

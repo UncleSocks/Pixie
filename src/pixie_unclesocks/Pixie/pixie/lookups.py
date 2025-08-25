@@ -59,8 +59,8 @@ class AbuseIpDbLookup:
             if is_public:
 
                 ip_address = decoded_response['data'].get('ipAddress')
-
                 country_code = decoded_response['data'].get('countryCode', "NONE")
+                usage_type = decoded_response['data'].get('usageType', "UNKNOWN")
 
                 hostnames = ", ".join(decoded_response['data']['hostnames'])
                 if not hostnames:
@@ -78,6 +78,7 @@ class AbuseIpDbLookup:
             else:
                 ip_address = ip
                 country_code = "PRIVATE"
+                usage_type = "PRIVATE"
                 hostnames = "NOT APPLICABLE"
                 domain = "NOT APPLICABLE"
                 isp = "NOT APPLICABLE"
@@ -86,8 +87,8 @@ class AbuseIpDbLookup:
                 total_reports = 0
                 last_reported_at = "NOT APPLICABLE"
 
-            processed_ip = {"IP Address":str(ip_address), "Country Code":str(country_code), "Hostnames":str(hostnames), \
-                            "Domain":str(domain), "ISP":str(isp), "Raw Abuse Score":int(abuse_raw_score), \
+            processed_ip = {"IP Address":str(ip_address), "Country Code":str(country_code), "Usage Type":str(usage_type), \
+                            "Hostnames":str(hostnames), "Domain":str(domain), "ISP":str(isp), "Raw Abuse Score":int(abuse_raw_score), \
                             "Abuse Score":str(abuse_score), "Total Reports":int(total_reports), "Last Reported At":str(last_reported_at)}
             processed_ip_list.append(processed_ip)
 
