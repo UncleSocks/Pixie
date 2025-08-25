@@ -62,10 +62,10 @@ class FilterLogic:
     @staticmethod
     def _bool_cast(value):
 
-        if value.strip().upper() in ("TRUE", "YES", "1"):
+        if value.strip().upper() in ("TRUE", "YES", "Y", "1"):
             return True
         
-        elif value.strip().upper() in ("FALSE", "NO", "0"):
+        elif value.strip().upper() in ("FALSE", "NO", "N", "0"):
             return False
         
         else:
@@ -81,15 +81,21 @@ class FilterLogic:
             if not filter_match:
                 raise ValueError(f"ERR-FL01: Invalid filter format: '{filter}'. Expected format like 'CONFIDENCE >= 85'.")            
 
-            filter_key = filter_match.group('filter_key_int') or \
-                filter_match.group('filter_key_str') or \
-                filter_match.group('filter_key_bl')
+            filter_key = filter_match.group('filter_key_int') \
+                or filter_match.group('filter_key_str') \
+                    or filter_match.group('filter_key_cc') \
+                        or filter_match.group('filter_key_bl')
             
-            filter_operation = filter_match.group('filter_op_int') or \
-                filter_match.group('filter_op_str') or \
-                filter_match.group('filter_op_bl')
+            filter_operation = filter_match.group('filter_op_int') \
+                or filter_match.group('filter_op_str') \
+                    or filter_match.group('filter_op_cc') \
+                        or filter_match.group('filter_op_bl')
             
-            filter_value = filter_match.group('filter_value')
+            filter_value = filter_match.group('filter_val_int') \
+                or filter_match.group('filter_val_str') \
+                    or filter_match.group('filter_val_cc') \
+                        or filter_match.group('filter_val_bl')
+            
             normalized_filter_key = filter_key.upper()
             filter_configuration = self.filter_config.get(normalized_filter_key)
 
@@ -116,26 +122,38 @@ class FilterLogic:
     def _filter_regex_patter(self):
         filter_pattern = re.compile(r"""
             (                                           
-                (   # Integer-related filter keys
+                (   # Integer-based regex:
                     (?P<filter_key_int>CONFIDENCE|TOTALREPORTS)
                     \s*
                     (?P<filter_op_int>>=|<=|==|!=|>|<|=)
+                    \s*
+                    (?P<filter_val_int>\d+%?)
                 )
                 |
-                (   # String-related filter keys
-                    (?P<filter_key_str>USAGETYPE|ISP|COUNTRYCODE|DOMAIN)
+                (   # String-based regex:
+                    (?P<filter_key_str>USAGETYPE|ISP|DOMAIN)
                     \s*
                     (?P<filter_op_str>contains|!contains)
+                    \s*
+                    (?P<filter_val_str>\S+)
                 )
                 |
-                (   # Boolean-related filter kay
+                (   # Country code regex:
+                    (?P<filter_key_cc>COUNTRYCODE)
+                    \s*
+                    (?P<filter_op_cc>==|!=|=)
+                    \s*
+                    (?P<filter_val_cc>[a-zA-Z]{2})
+                )
+                |
+                (   # Blacklist regex:
                     (?P<filter_key_bl>BLACKLISTED)
                     \s*
                     (?P<filter_op_bl>==|=)
+                    \s*
+                    (?P<filter_val_bl>true|false|yes|no|y|n|1|0|)
                 )
-            )
-            \s*
-            (?P<filter_value>\S+)   # Filter value
+            ) 
             """, re.IGNORECASE | re.VERBOSE)
 
         if not filter_pattern:
