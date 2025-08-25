@@ -4,6 +4,7 @@ from enum import Enum
 
 
 
+
 class FilterKeys(Enum):
     CONFIDENCE = "CONFIDENCE"
     TOTALREPORTS = "TOTALREPORTS"
@@ -12,7 +13,6 @@ class FilterKeys(Enum):
     COUNTRYCODE = "COUNTRYCODE"
     DOMAIN = "DOMAIN"
     BLACKLISTED = "BLACKLISTED"
-
 
 
 class FilterLogic:
@@ -62,7 +62,6 @@ class FilterLogic:
             }
         }
         
-
     @staticmethod
     def _contains(a_string, b_string):
         return b_string.upper() in a_string.upper()
