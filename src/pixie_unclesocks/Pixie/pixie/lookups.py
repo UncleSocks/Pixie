@@ -1,9 +1,16 @@
 import time
 import json
 import urllib.request
+from enum import Enum
 
 from requests import request
 
+
+
+
+class URLs(Enum):
+    ABUSEIPDB = 'https://api.abuseipdb.com/api/v2/check'
+    BLACKLIST = "https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt"
 
 
 class AbuseIpDbLookup:
@@ -13,46 +20,36 @@ class AbuseIpDbLookup:
 
     def abuse_api_check(self):
         print("\nTesting Abuse IP DB API connection...")
-        
-        url = 'https://api.abuseipdb.com/api/v2/check'
         headers = {
             'Accept':'application/json',
             'Key':self.api_key
         }
         test_query = {'ipAddress':'8.8.8.8'}
-
-        response = request(method='GET', url=url, headers=headers, params=test_query)
-
+        response = request(method='GET', url=URLs.ABUSEIPDB.value, headers=headers, params=test_query)
         if response.status_code == 200:
             print("Abuse IP DB connection test successful.")
             return
-        
         else:
             raise ValueError(f"Failed to connect to Abuse IP DB. Returned status {response.status_code} with error: {response.text}.")
 
-    
-
     def abuse_lookup(self, ip_list):
         print("Performing Abuse IP DB lookup...")
-
         processed_ip_list = []
         total_ips = len(ip_list)
         start_time = time.time()
 
-        url = 'https://api.abuseipdb.com/api/v2/check'
         headers = {
             'Accept':'application/json',
             'Key':self.api_key
         }
 
         for index, ip in enumerate(ip_list, start=1):
-
             query_string = {
                 'ipAddress':ip,
                 'maxAgeInDays':'30'
             }
 
-            response = request(method='GET', url=url, headers=headers, params=query_string)
+            response = request(method='GET', url=URLs.ABUSEIPDB.value, headers=headers, params=query_string)
             decoded_response = json.loads(response.text)
             is_public = bool(decoded_response['data'].get('isPublic'))
 
@@ -62,17 +59,14 @@ class AbuseIpDbLookup:
                 country_code = decoded_response['data'].get('countryCode', "NONE")
                 country_name = self.country_code_converter(country_code)
                 usage_type = decoded_response['data'].get('usageType', "UNKNOWN")
-
                 hostnames = ", ".join(decoded_response['data']['hostnames'])
                 if not hostnames:
                     hostnames = "NONE"
 
                 domain = decoded_response['data'].get('domain', "NONE")
                 isp = decoded_response['data'].get('isp', "NONE")
-
                 abuse_raw_score = decoded_response['data'].get('abuseConfidenceScore')
                 abuse_score = str(abuse_raw_score) + "%"
-
                 total_reports = decoded_response['data'].get('totalReports', 0)
                 last_reported_at = decoded_response['data'].get('lastReportedAt', "UNKNOWN")
 
@@ -94,7 +88,6 @@ class AbuseIpDbLookup:
                             "Raw Abuse Score":int(abuse_raw_score), "Abuse Score":str(abuse_score), \
                             "Total Reports":int(total_reports), "Last Reported At":str(last_reported_at)}
             processed_ip_list.append(processed_ip)
-
             print(f"\rProcessing {index}/{total_ips} IP addresses", end="", flush=True)
 
         end_time = time.time()
@@ -378,30 +371,23 @@ class AbuseIpDbLookup:
         else:
             country_name = "UNKNOWN"
         return country_name
-    
 
 
 class BlacklistLookup:
 
     def __init__(self, blacklist_source):
-
         self.blacklist_source = blacklist_source
 
     def osint_blacklist(self):
-        blacklist_url = "https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt"
-        print(f"Updating IP address blacklist from {blacklist_url}")
-
+        print(f"Updating IP address blacklist from {URLs.BLACKLIST.value}")
         try:
-            get_blacklist = urllib.request.urlopen(blacklist_url).read().decode('utf-8')
+            get_blacklist = urllib.request.urlopen(URLs.BLACKLIST.value).read().decode('utf-8')
             parsed_blacklist = [ip.split()[0] for ip in get_blacklist.strip().split("\n") if ip.strip() and not ip.startswith('#')]
             print("OSINT blacklist successfully updated.")
-
         except:
             parsed_blacklist = []
             print("ERR-IN03: OSINT blacklist failed to update.")
-
         return parsed_blacklist
-
 
     def local_blacklist(self):
         print("Parsing local blacklist file...")
@@ -420,7 +406,6 @@ class BlacklistLookup:
     
         return parsed_local_blacklist
 
-
     def blacklist_check (self, ip_list):
         if self.blacklist_source != None:
             blacklist = self.local_blacklist()
@@ -434,5 +419,4 @@ class BlacklistLookup:
                 ip['Blacklisted'] = True
             else:
                 ip['Blacklisted'] = False
-
         return ip_list

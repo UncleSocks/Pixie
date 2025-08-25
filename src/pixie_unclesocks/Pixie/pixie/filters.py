@@ -7,7 +7,6 @@ class FilterLogic:
 
     def __init__(self, filter_args):
         self.filter_args = filter_args
-
         self.operator_map = {
             ">": operator.gt,
             ">=": operator.ge,
@@ -25,32 +24,26 @@ class FilterLogic:
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Raw Abuse Score', 0),
                 "cast": int
             },
-
             "TOTALREPORTS": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Total Reports', 0),
                 "cast": int
             },
-
             "USAGETYPE": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Usage Type', '').upper(),
                 "cast": str
             },
-
             "ISP": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('ISP', '').upper(),
                 "cast": str
             },
-
             "COUNTRYCODE": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Country Code', '').upper(),
                 "cast": str
             },
-
             "DOMAIN": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Domain', '').upper(),
                 "cast": str
             },
-
             "BLACKLISTED": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Blacklisted', False),
                 "cast": self._bool_cast
@@ -80,14 +73,11 @@ class FilterLogic:
 
 
     def build_filter(self):
-
         filter_pattern = self._filter_regex_patter()
         parsed_filters = []
 
-        for filter in self.filter_args:
-            
+        for filter in self.filter_args:    
             filter_match = filter_pattern.fullmatch(filter)
-
             if not filter_match:
                 raise ValueError(f"ERR-FL01: Invalid filter format: '{filter}'. Expected format like 'CONFIDENCE >= 85'.")            
 
@@ -100,7 +90,6 @@ class FilterLogic:
                 filter_match.group('filter_op_bl')
             
             filter_value = filter_match.group('filter_value')
-
             normalized_filter_key = filter_key.upper()
             filter_configuration = self.filter_config.get(normalized_filter_key)
 
@@ -122,7 +111,6 @@ class FilterLogic:
 
             parsed_filters.append(lambda ip_absuse_record, operation=run_operation, 
                                   value=casted_filter_value, extracted=extracted_value: operation(extracted(ip_absuse_record), value))
-            
         return parsed_filters
     
     def _filter_regex_patter(self):
@@ -159,8 +147,6 @@ class FilterLogic:
         if self.filter_args:
             applied_filters = filters
             filtered_ip_list = [ip for ip in ip_list if all(filter(ip) for filter in applied_filters)]
-
         else:
-            filtered_ip_list = ip_list
-        
+            filtered_ip_list = ip_list 
         return filtered_ip_list

@@ -51,7 +51,6 @@ def arguments():
 
 def pixie_logo():
     pixie_logo = """
-
 =============================================================================================
 =============================================================================================                                                                                
                      _____
@@ -86,16 +85,14 @@ def pixie_logo():
 
 =============================================================================================
     """
-
     return print(pixie_logo)
     
 
 def main():
     pixie_logo()
     args = arguments()
-
     api_key = args.api if args.api else getpass("Enter Abuse IP DB API Key > ")
-
+    
     if not args.netstat:
         ip_list = ip_parser(args.wordlist)
     else:
@@ -103,13 +100,10 @@ def main():
 
     filter = FilterLogic(args.filter)
     applied_filter = filter.build_filter()
-
     abuse = AbuseIpDbLookup(api_key)
     abuse.abuse_api_check() #Checks Abuse IP DB connection.
-
     processed_ip_list = AbuseIpDbLookup(api_key).abuse_lookup(ip_list)
     blacklisted_processed_ip_list = BlacklistLookup(args.blacklist).blacklist_check(processed_ip_list)
-
     filtered_ip = filter.apply_filter(blacklisted_processed_ip_list, applied_filter)
 
     DisplayOutput(filtered_ip).display_cli_table() #Displays output in the CLI.
