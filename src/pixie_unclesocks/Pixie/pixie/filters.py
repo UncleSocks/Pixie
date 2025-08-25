@@ -31,6 +31,11 @@ class FilterLogic:
                 "cast": int
             },
 
+            "USAGETYPE": {
+                "extract_value": lambda ip_abuse_record: ip_abuse_record.get('Usage Type', '').upper(),
+                "cast": str
+            },
+
             "ISP": {
                 "extract_value": lambda ip_abuse_record: ip_abuse_record.get('ISP', '').upper(),
                 "cast": str
@@ -130,7 +135,7 @@ class FilterLogic:
                 )
                 |
                 (   # String-related filter keys
-                    (?P<filter_key_str>ISP|COUNTRYCODE|DOMAIN)
+                    (?P<filter_key_str>USAGETYPE|ISP|COUNTRYCODE|DOMAIN)
                     \s*
                     (?P<filter_op_str>contains|!contains)
                 )

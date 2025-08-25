@@ -9,15 +9,16 @@ class DisplayOutput:
 
     def __init__(self, filtered_ip_list):
         self.filtered_ip_list = filtered_ip_list
-        self.field_names = ['IP Address', 'Country Code', 'Usage Type', 'Hostnames', 'Domain', 'ISP', 
-                            'Abuse Score', 'Total Reports', 'Last Reported At', 'Blacklisted']
+        self.field_names = ['IP Address', 'Country Code', 'Country', 'Usage Type', 'Hostnames', 
+                            'Domain', 'ISP', 'Abuse Score', 'Total Reports', 'Last Reported At', 
+                            'Blacklisted']
 
     def display_cli_table(self):
         table = PrettyTable()
         table.field_names = self.field_names
 
         for ip in self.filtered_ip_list:
-            table.add_row([ip['IP Address'], ip['Country Code'], ip['Usage Type'], ip['Hostnames'], ip['Domain'], 
+            table.add_row([ip['IP Address'], ip['Country Code'], ip['Country'], ip['Usage Type'], ip['Hostnames'], ip['Domain'], 
                            ip['ISP'], ip['Abuse Score'], ip['Total Reports'], ip['Last Reported At'], ip['Blacklisted']])
 
         table.align = "l"
