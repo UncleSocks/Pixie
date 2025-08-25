@@ -73,9 +73,10 @@ Pixie uses the `Key-Operator-Value` format for its filter syntax. The table belo
 | ---------- | -------------------- | --- | ----------------------------------------| ------------------ |
 | CONFIDENCE | >=, <=, ==, !=, >, < | int | Filters IPs based on their confidence score in AbuseIPDB. | "CONFIDENCE >= 80" |
 | TOTALREPORTS | >=, <=, ==, !=, >, < | int | Filters IPs by the number of abuse reported. |"TOTALREPORTS > 200" |
-| ISP | contains, !contains | str | Filters IPs based on whether the internet service provider (ISP) contains (or does not contain) a keyword. | "ISP !contains Microsoft" |
+| USAGETYPE | contains, !contains | str | Filters IPs based on whether the usage type contains (or does not contain) a keyword(s). | "USAGETYPE contains Data Center" |
+| ISP | contains, !contains | str | Filters IPs based on whether the internet service provider (ISP) contains (or does not contain) a keyword(S). | "ISP !contains Microsoft" |
 | COUNTRYCODE | contains, !contains | str | IFilters IPs by whether their country code matches (or does not match) the input. | "COUNTRY contains PH" |
-| DOMAIN | contains, !contains | str | Filters IPs by whether their domain name contains (or does not contain) a keyword. | "DOMAIN contains google" |
+| DOMAIN | contains, !contains | str | Filters IPs by whether their domain name contains (or does not contain) a keyword(s). | "DOMAIN contains google" |
 | BLACKLISTED | == | bool | Filters IPs based on whether they are on the blacklist (`True`, `Yes`, `1`) or not (`False`, `No`, `0`) | "BLACKLISTED == True" |
 
 ## Output
