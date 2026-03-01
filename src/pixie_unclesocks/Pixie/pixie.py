@@ -57,11 +57,11 @@ def pixie_logo():
                \/_  | Awo |    
               ..     -----                                                                
            +++xX:  /                                                                 
-          ;;;+XX;                                      ^^                                
-        ++++++++:                   ^^                                                
-       :x++;++++.                                                 ^^                   
-          ;++;;::                                 ^^                               
-         .+++;:::              ^^                                                      
+          ;;;+XX;                                                                      
+        ++++++++:                                                                   
+       :x++;++++.                                                                   
+          ;++;;::                                                                
+         .+++;:::                                                                    
         .;;;;++;::                                                                   
        ;+;;;;::;;;:.   ;&&&&&&&&&&&&+ ;&&&&&; x&&&&&&&&+&&&&&&.:&&&&&:               
       :++;;;:::;++:;    :&&&&x  $&&&&::&$;     :&&&&&&.&&$     :&$;                  
@@ -74,8 +74,6 @@ def pixie_logo():
     :;        :;:;.                                                                  
     ;:            ;;  Defender's "Mini" IP Abuse and Blacklist Mass Lookup Tool                                       
    .;:            .::                   
-
-    In loving memory of my dog, Pixie.
 
     
 [+] Perform bulk IP address lookup on Abuse IP DB.
